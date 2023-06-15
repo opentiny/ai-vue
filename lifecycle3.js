@@ -1,14 +1,26 @@
 var instance = null;
 
 function Vue(options) {
-  this.$options = options;
-
   instance = this;
-
+  this.$options = options;
   this._data = typeof options.setup === 'function' ? options.setup() : {};
-
+  this._proxyData();
   this.$mount(options.el);
 }
+
+Vue.prototype._proxyData = function() {
+  var self = this;
+  Object.keys(this._data).forEach(function(key) {
+    Object.defineProperty(self, key, {
+      get: function() {
+        return self._data[key];
+      },
+      set: function(newValue) {
+        self._data[key] = newValue;
+      }
+    });
+  });
+};
 
 Vue.prototype.$mount = function(el) {
   this.$el = document.querySelector(el);
