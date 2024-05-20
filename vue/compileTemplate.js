@@ -87,10 +87,10 @@ const parseComponents = function() {
     self.$el.querySelectorAll(componentName).forEach((element) => {
       component.$parent = element;
       component.$slotContent = element.innerHTML;
-      component._updateSlots();
+      component.$ready.then(() => component._updateSlots());
 
       if (isNewComponent) {
-        component.$options?.emits.forEach((event) => {
+        component.$options?.emits?.forEach((event) => {
           const method = element.getAttribute('v-on:' + event);
           if (typeof self[method] === 'function') {
             component.$on(event, self[method]);

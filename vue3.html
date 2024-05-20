@@ -8,7 +8,16 @@
   <body>
     <div id="app"></div>
     <script type="module">
-      import { createApp, reactive, computed, watch, onBeforeUnmount, onMounted, onBeforeUpdate, onUpdated } from './vue/vue3.js';
+      import {
+        createApp,
+        reactive,
+        computed,
+        watch,
+        onBeforeMount,
+        onMounted,
+        onBeforeUpdate,
+        onUpdated
+      } from './vue/vue3.js';
 
       const HelloComponent = {
         emits: ['greet'],
@@ -64,7 +73,7 @@
 
           const updateMessage = (newMessage) => (state.message = newMessage);
 
-          onBeforeUnmount(() => console.log('beforeMount hook'));
+          onBeforeMount(() => console.log('beforeMount hook'));
 
           onMounted(() => console.log('mounted hook'));
 

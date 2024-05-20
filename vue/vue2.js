@@ -10,25 +10,24 @@ function Vue(options) {
   this.$options = options;
   this._eventBus = new EventBus();
 
+  this.$on = on;
+  this.$emit = emit;
+  this._mount = mount;
+  this._render = render;
+  this._proxyData = proxyData;
+  this._createWatchers = watch;
+  this._createComputed = computed;
+  this._updateSlots = updateSlots;
+  this._compileTemplate = compileTemplate;
+  this._parseComponents = parseComponents;
+
   this._data = typeof options.data === 'function' ? options.data() : options.data;
   this._components = options.components ?? {};
 
   this._proxyData();
   this._createWatchers();
   this._createComputed();
-  this._mount();
+  this.$ready = this._mount();
 }
-
-Vue.prototype.$on = on;
-Vue.prototype.$emit = emit;
-
-Vue.prototype._mount = mount;
-Vue.prototype._render = render;
-Vue.prototype._proxyData = proxyData;
-Vue.prototype._createWatchers = watch;
-Vue.prototype._createComputed = computed;
-Vue.prototype._updateSlots = updateSlots;
-Vue.prototype._compileTemplate = compileTemplate;
-Vue.prototype._parseComponents = parseComponents;
 
 export default Vue;

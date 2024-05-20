@@ -11,7 +11,8 @@ const computed = (callback) => {
   const instance = getCurrentInstance();
   return {
     instance,
-    callback
+    callback,
+    toString: () => callback()
   };
 };
 

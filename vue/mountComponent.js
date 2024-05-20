@@ -5,17 +5,17 @@ const render = function() {
   this._parseComponents();
 };
 
-const mount = function() {
+const mount = async function() {
   if (typeof this.$options.beforeMount === 'function') {
     setCurrentInstance(this);
-    this.$options.beforeMount.call(this);
+    await this.$options.beforeMount.call(this);
   }
 
   this._render();
 
   if (typeof this.$options.mounted === 'function') {
     setCurrentInstance(this);
-    this.$options.mounted.call(this);
+    await this.$options.mounted.call(this);
   }
 };
 
