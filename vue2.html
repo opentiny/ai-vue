@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue2</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module">
+      import Vue from './vue/vue2.js';
+
+      const HelloComponent = {
+        emits: ['greet'],
+        data() {
+          return {
+            firstName: 'John',
+            lastName: 'Doe'
+          };
+        },
+        computed: {
+          fullName() {
+            return this.firstName + ' ' + this.lastName;
+          }
+        },
+        updated() {
+          this.$emit('greet', this.firstName);
+        },
+        template: `
+          <div>
+            <h1>{{ fullName }}</h1>
+            <slot></slot>
+          </div>
+        `
+      };
+
+      const app = new Vue({
+        el: '#app',
+        components: {
+          HelloComponent
+        },
+        data: {
+          message: 'Hello, Vue!',
+          inputValue: 'ChatGPT'
+        },
+        watch: {
+          message(newValue, oldValue) {
+            console.log('Message changed:', oldValue, ' -> ', newValue);
+          },
+          inputValue(newValue, oldValue) {
+            console.log('InputValue changed:', oldValue, ' -> ', newValue);
+          }
+        },
+        methods: {
+          greetMessage(message) {
+            this.$emit('greet', message);
+          },
+          updateMessage(newMessage) {
+            this.message = newMessage;
+          }
+        },
+        beforeMount() {
+          console.log('beforeMount hook');
+        },
+        mounted() {
+          console.log('mounted hook');
+        },
+        beforeUpdate() {
+          console.log('beforeUpdate hook');
+        },
+        updated() {
+          console.log('updated hook');
+        },
+        template: `
+          <div>
+            <HelloComponent v-on:greet="greetMessage">
+              <p>{{ message }}</p>
+            </HelloComponent>
+            <input v-model="inputValue" type="text">
+            <p v-text="inputValue"></p>
+          </div>
+        `
+      });
+
+      app.$on('greet', (message) => {
+        console.log('Greet:', message);
+      });
+
+      app.inputValue = 'OpenAI';
+      app.HelloComponent.firstName = 'Tom';
+      app.updateMessage('Hello, World!');
+
+      window.app = app;
+    </script>
+  </body>
+</html>
