@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue3</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module">
+      import { createApp, reactive, computed, watch, onBeforeUnmount, onMounted, onBeforeUpdate, onUpdated } from './vue/vue3.js';
+
+      const HelloComponent = {
+        emits: ['greet'],
+        setup(props, context) {
+          const state = reactive({
+            firstName: 'John',
+            lastName: 'Doe'
+          });
+
+          const fullName = computed(() => state.firstName + ' ' + state.lastName);
+
+          onUpdated(() => context.emit('greet', state.firstName));
+
+          return {
+            state,
+            fullName
+          };
+        },
+        template: `
+          <div>
+            <h1>{{ fullName }}</h1>
+            <slot></slot>
+          </div>
+        `
+      };
+
+      const app = createApp({
+        el: '#app',
+        components: {
+          HelloComponent
+        },
+        setup(props, context) {
+          const state = reactive({
+            message: 'Hello, Vue!',
+            inputValue: 'ChatGPT'
+          });
+
+          watch(
+            () => state.message,
+            (newValue, oldValue) => {
+              console.log('Message changed:', oldValue, ' -> ', newValue);
+            }
+          );
+
+          watch(
+            () => state.inputValue,
+            (newValue, oldValue) => {
+              console.log('InputValue changed:', oldValue, ' -> ', newValue);
+            }
+          );
+
+          const greetMessage = (message) => context.emit('greet', message);
+
+          const updateMessage = (newMessage) => (state.message = newMessage);
+
+          onBeforeUnmount(() => console.log('beforeMount hook'));
+
+          onMounted(() => console.log('mounted hook'));
+
+          onBeforeUpdate(() => console.log('beforeUpdate hook'));
+
+          onUpdated(() => console.log('updated hook'));
+
+          return {
+            state,
+            greetMessage,
+            updateMessage
+          };
+        },
+        template: `
+          <div>
+            <HelloComponent v-on:greet="greetMessage">
+              <p>{{ state.message }}</p>
+            </HelloComponent>
+            <input v-model="state.inputValue" type="text">
+            <p v-text="state.inputValue"></p>
+          </div>
+        `
+      });
+
+      app.$on('greet', (message) => {
+        console.log('Greet:', message);
+      });
+
+      app.state.inputValue = 'OpenAI';
+      app.HelloComponent.state.firstName = 'Tom';
+      app.updateMessage('Hello, World!');
+
+      window.app = app;
+    </script>
+  </body>
+</html>
