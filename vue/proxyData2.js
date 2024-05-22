@@ -1,4 +1,4 @@
-const proxyData = function() {
+const proxyData = function () {
   const self = this;
 
   Object.keys(this._data).forEach((key) => {

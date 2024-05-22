@@ -1,6 +1,6 @@
 import { setCurrentInstance, getCurrentInstance } from './instance.js';
 
-const proxyData = function() {
+const proxyData = function () {
   const self = this;
 
   Object.keys(this._data).forEach((key) => {
@@ -19,8 +19,8 @@ const proxyData = function() {
   });
 };
 
-const reactive = (obj) => {
-  return new Proxy(obj, {
+const reactive = (obj) =>
+  new Proxy(obj, {
     get(target, key) {
       const instance = getCurrentInstance();
       if (typeof instance._watchCallback === 'function') {
@@ -48,6 +48,5 @@ const reactive = (obj) => {
       return true;
     }
   });
-};
 
 export { proxyData, reactive };

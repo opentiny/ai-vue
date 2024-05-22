@@ -1,4 +1,4 @@
-const updateSlots = function() {
+const updateSlots = function () {
   const self = this;
 
   if (self.$slotContent) {
@@ -12,7 +12,7 @@ const updateSlots = function() {
   }
 };
 
-const compileTemplate = function() {
+const compileTemplate = function () {
   const self = this;
 
   const getExpression = (expression) => {
@@ -32,23 +32,23 @@ const compileTemplate = function() {
     target[lastKey] = value;
   };
 
-  const setDataBind = (node) => {
+  const setDataBind = () => {
     const recurse = (node) => {
       const text = node.nodeValue;
       if (node.nodeType === Node.TEXT_NODE && text.startsWith('{{') && text.endsWith('}}')) {
         const expression = text.substring(2, text.length - 2).trim();
         const value = evalExpression(expression);
-        node.textContent = value !== undefined ? value : '';
+        node.textContent = value === undefined ? '' : value;
       }
       node.childNodes.forEach((childNode) => recurse(childNode));
     };
-    recurse(node);
+    recurse(self.$el);
   };
 
-  const element = document.createElement('div');
-  element.innerHTML = self.$options.template.trim();
-  self.$el = element.childNodes[0];
-  setDataBind(self.$el);
+  const el = document.createElement('div');
+  el.innerHTML = self.$options.template.trim();
+  self.$el = el.childNodes[0];
+  setDataBind();
 
   const dom = document.querySelector(self.$options.el);
   if (dom) {
@@ -76,7 +76,7 @@ const compileTemplate = function() {
   });
 };
 
-const parseComponents = function() {
+const parseComponents = function () {
   const self = this;
 
   Object.keys(self._components).forEach((componentName) => {
@@ -91,7 +91,7 @@ const parseComponents = function() {
 
       if (isNewComponent) {
         component.$options?.emits?.forEach((event) => {
-          const method = element.getAttribute('v-on:' + event);
+          const method = element.getAttribute(`v-on:${event}`);
           if (typeof self[method] === 'function') {
             component.$on(event, self[method]);
           }

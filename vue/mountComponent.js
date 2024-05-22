@@ -1,11 +1,11 @@
 import { setCurrentInstance } from './instance.js';
 
-const render = function() {
+const render = function () {
   this._compileTemplate();
   this._parseComponents();
 };
 
-const mount = async function() {
+const mount = async function () {
   if (typeof this.$options.beforeMount === 'function') {
     setCurrentInstance(this);
     await this.$options.beforeMount.call(this);

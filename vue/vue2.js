@@ -1,7 +1,6 @@
 import { EventBus, on, emit } from './eventBus.js';
 import { mount, render } from './mountComponent.js';
 import { updateSlots, compileTemplate, parseComponents } from './compileTemplate.js';
-
 import { proxyData } from './proxyData2.js';
 import { watch, computed } from './watchComputed2.js';
 

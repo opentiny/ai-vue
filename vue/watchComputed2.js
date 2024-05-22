@@ -1,9 +1,9 @@
-const watch = function() {
+const watch = function () {
   const self = this;
-  const watch = this.$options.watch || {};
+  const callbacks = self.$options.watch || {};
 
-  Object.keys(watch).forEach((key) => {
-    const callback = watch[key];
+  Object.keys(callbacks).forEach((key) => {
+    const callback = callbacks[key];
     let value = self._data[key];
 
     Object.defineProperty(self._data, key, {
@@ -17,13 +17,13 @@ const watch = function() {
   });
 };
 
-const computed = function() {
+const computed = function () {
   const self = this;
-  const computed = this.$options.computed ?? {};
+  const callbacks = self.$options.computed || {};
 
-  Object.keys(computed).forEach((key) => {
+  Object.keys(callbacks).forEach((key) => {
     Object.defineProperty(self, key, {
-      get: () => computed[key].call(self)
+      get: () => callbacks[key].call(self)
     });
   });
 };

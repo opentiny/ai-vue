@@ -2,7 +2,7 @@ function EventBus() {
   this._events = {};
 }
 
-EventBus.prototype.on = function(eventObject, eventName, callback) {
+EventBus.prototype.on = function (eventObject, eventName, callback) {
   let eventObj = this._events[eventObject];
 
   if (!eventObj) {
@@ -17,7 +17,7 @@ EventBus.prototype.on = function(eventObject, eventName, callback) {
   eventObj[eventName].push(callback);
 };
 
-EventBus.prototype.emit = function(eventObject, eventName, payload) {
+EventBus.prototype.emit = function (eventObject, eventName, payload) {
   const eventObj = this._events[eventObject];
 
   if (eventObj && eventObj[eventName]) {
@@ -25,11 +25,11 @@ EventBus.prototype.emit = function(eventObject, eventName, payload) {
   }
 };
 
-const on = function(eventName, callback) {
+const on = function (eventName, callback) {
   this._eventBus.on(this, eventName, callback);
 };
 
-const emit = function(eventName, ...payload) {
+const emit = function (eventName, ...payload) {
   this._eventBus.emit(this, eventName, payload);
 };
 

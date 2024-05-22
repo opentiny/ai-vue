@@ -1,10 +1,8 @@
 import { EventBus, on, emit } from './eventBus.js';
 import { mount, render } from './mountComponent.js';
 import { updateSlots, compileTemplate, parseComponents } from './compileTemplate.js';
-
 import { proxyData, reactive } from './proxyData3.js';
 import { watch, computed } from './watchComputed3.js';
-
 import { getCurrentInstance, setCurrentInstance } from './instance.js';
 import { onBeforeMount, onMounted, onBeforeUpdate, onUpdated } from './lifecycle.js';
 
@@ -40,4 +38,14 @@ function Vue(options) {
 
 const createApp = (options) => new Vue(options);
 
-export { createApp, reactive, computed, watch, getCurrentInstance, onBeforeMount, onMounted, onBeforeUpdate, onUpdated };
+export {
+  createApp,
+  reactive,
+  computed,
+  watch,
+  getCurrentInstance,
+  onBeforeMount,
+  onMounted,
+  onBeforeUpdate,
+  onUpdated
+};
