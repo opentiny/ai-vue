@@ -9,8 +9,9 @@ const watch = function() {
     Object.defineProperty(self._data, key, {
       get: () => value,
       set(newValue) {
-        callback.call(self, newValue, value);
+        const oldValue = value;
         value = newValue;
+        callback.call(self, newValue, oldValue);
       }
     });
   });
